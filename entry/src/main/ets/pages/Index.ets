@@ -49,12 +49,12 @@ struct Index {
 
   getPermission(context: common.UIAbilityContext) {
     notificationManager.isNotificationEnabled().then((data: boolean) => {
-      console.info('isNotificationEnabled success, data: ' + JSON.stringify(data));
+      console.info(`isNotificationEnabled success, data: ${JSON.stringify(data)}`);
       if (!data) {
         notificationManager.requestEnableNotification(context).then(() => {
           console.info(`[ANS] requestEnableNotification success`);
         }).catch((err: BusinessError) => {
-          if (1600004 == err.code) {
+          if (1600004 === err.code) {
             console.error(`[ANS] requestEnableNotification refused, code is ${err.code}, message is ${err.message}`);
           } else {
             console.error(`[ANS] requestEnableNotification failed, code is ${err.code}, message is ${err.message}`);

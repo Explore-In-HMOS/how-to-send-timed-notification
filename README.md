@@ -6,7 +6,7 @@ This codelab shows how to create reminders and send notifications using Agent-Po
 
 # Preview
 <div>
-<img src="media/ss.png" width="25%" />
+<img src="screenshots/ss.png" width="25%" />
 </div>
 
 # Use Cases

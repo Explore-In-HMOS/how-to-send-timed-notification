@@ -7,23 +7,23 @@ export default class Reminder {
   private _reminderOpen = AppStorage.link<boolean>('reminderOpen');
 
   get reminderOpen() {
-    return this._reminderOpen.get()
+    return this._reminderOpen.get();
   }
 
   set reminderOpen(val: boolean) {
     if (val) {
-      this.setReminder()
+      this.setReminder();
     } else {
-      this.removeReminder()
+      this.removeReminder();
     }
 
-    this._reminderOpen.set(val)
+    this._reminderOpen.set(val);
   }
 
 
   private async setReminder() {
-    const oneMinutesLater = new Date(Date.now() + 60 * 1000)
-    console.log(oneMinutesLater.toString());
+    const oneMinutesLater = new Date(Date.now() + 60 * 1000);
+    console.info(oneMinutesLater.toString());
 
     let targetReminderAgent: reminderAgentManager.ReminderRequestAlarm = {
       reminderType: reminderAgentManager.ReminderType.REMINDER_TYPE_ALARM, // The reminder type is alarm.
@@ -34,7 +34,7 @@ export default class Reminder {
         {
           title: 'close',
           type: reminderAgentManager.ActionButtonType.ACTION_BUTTON_TYPE_CLOSE
-        },
+        }
       ],
       wantAgent: {
         // Information about the target UIAbility that is displayed after the reminder notification is touched.
@@ -48,24 +48,25 @@ export default class Reminder {
       content: 'Do not forget to smile :)', // Reminder content.
       // expiredContent: 'this reminder has expired', // Content to be displayed after the reminder expires.
       // snoozeContent: 'remind later', // Content to be displayed when the reminder is snoozed.
-      notificationId: 1, // Notification ID used by the reminder. If there are reminders with the same notification ID, the later one will overwrite the earlier one.
+      notificationId: 1, // Notification ID used by the reminder.
+      // If there are reminders with the same notification ID, the later one will overwrite the earlier one.
       slotType: notificationManager.SlotType.SOCIAL_COMMUNICATION // Type of the slot used by the reminder.
-    }
+    };
 
     await reminderAgentManager.publishReminder(targetReminderAgent).then((res: number) => {
       let reminderId: number = res; // ID of the published reminder.
-      AppStorage.set('reminderId', reminderId)
+      AppStorage.set('reminderId', reminderId);
       console.info('Succeeded in publishing reminder.', reminderId);
     }).catch((err: BusinessError) => {
       console.error(`Failed to publish reminder. Code: ${err.code}, message: ${err.message}`);
-    })
+    });
   }
 
   private async removeReminder() {
     let reminderId: number = AppStorage.get('reminderId') as number;
     // The reminder ID is obtained from the callback after the reminder is published.
     await reminderAgentManager.cancelReminder(reminderId).then(() => {
-      console.log('Succeeded in canceling reminder.', reminderId);
+      console.info('Succeeded in canceling reminder.', reminderId);
     }).catch((err: BusinessError) => {
       console.error(`Failed to cancel reminder. Code: ${err.code}, message: ${err.message}`);
     });

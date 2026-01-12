@@ -1,6 +1,6 @@
 {
   "app": {
-    "bundleName": "com.hmosdemos.timednotification",
+    "bundleName": "com.hmosdemos.wearable.how_to_send_timed_notification",
     "vendor": "hmosdemos",
     "versionCode": 1000000,
     "versionName": "1.0.0",
